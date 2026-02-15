@@ -47,7 +47,7 @@ const Scene: React.FC = () => {
      - metallicRoughness_1.jpg
      - normal_1.jpg
   */
-  const { nodes } = useGLTF('./evolvix-model/evolvix_logo_3d_model.gltf') as any;
+  const { nodes } = useGLTF(`${import.meta.env.BASE_URL}evolvix-model/evolvix_logo_3d_model.gltf`) as any;
 
   // Extract all meshes from the loaded GLTF nodes
   const modelMeshes = useMemo(() => {
@@ -156,6 +156,6 @@ const Scene: React.FC = () => {
 };
 
 // Preload the model
-useGLTF.preload('./evolvix-model/evolvix_logo_3d_model.gltf');
+useGLTF.preload(`${import.meta.env.BASE_URL}evolvix-model/evolvix_logo_3d_model.gltf`);
 
 export default Scene;
