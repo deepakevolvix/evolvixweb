@@ -56,7 +56,8 @@ const Scene: React.FC = () => {
 
   // --- CONFIGURATION ---
   // Layout: Hero(100vh) + Title(60vh) + Services(100vh) ...
-  // Center of Services Section is approx at 210vh mark.
+  // Center of Services Section is approx at 
+  //  mark.
   const STOP_POINT = 0.33;
 
   // Total scroll pages defined in App.tsx (ScrollControls pages={6})
@@ -120,7 +121,7 @@ const Scene: React.FC = () => {
       <group ref={groupRef} position={[0, START_Y, 0]}>
         {/* Reduced rotationIntensity in Float so it doesn't interfere with our precise scroll rotation */}
         <Float speed={2} rotationIntensity={0} floatIntensity={0.5} floatingRange={[-0.1, 0.1]}>
-          <group ref={meshRef} scale={3}>
+          <group ref={meshRef} scale={1}>
             {modelMeshes.map((mesh: any, i: number) => (
               <mesh key={i} geometry={mesh.geometry} material={mesh.material}>
                 {/* 
