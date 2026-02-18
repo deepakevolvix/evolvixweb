@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
 
   // For local development and preview, use relative paths
-  //base: './',
+  base: './',
 
   // When deploying to GitHub Pages, uncomment and update this:
-  base: '/evolvixweb/',
+  //base: '/evolvixweb/',
 
   // Optimize build
   build: {

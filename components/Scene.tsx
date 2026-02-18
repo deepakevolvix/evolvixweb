@@ -25,6 +25,7 @@ declare global {
       h3: any;
       group: any;
       mesh: any;
+      
     }
   }
 }
@@ -56,13 +57,14 @@ const Scene: React.FC = () => {
 
   // --- CONFIGURATION ---
   // Layout: Hero(100vh) + Title(60vh) + Services(100vh) ...
-  // Center of Services Section is approx at 
-  //  mark.
-  const STOP_POINT = 0.33;
-
-  // Total scroll pages defined in App.tsx (ScrollControls pages={6})
-  // This is needed to calculate how fast the HTML layer moves relative to scroll offset
-  const TOTAL_PAGES = 6;
+  // Center of Services Section is at 210vh (1.0 + 0.6 + 0.5).
+  // We want this center to align with the Screen Center (0.5vh).
+  // So we need to scroll by: 2.1 - 0.5 = 1.6vh.
+  // STOP_POINT = 1.6 / (TOTAL_PAGES - 1)
+  const isMobile = window.innerWidth < 768;
+  const TOTAL_PAGES = isMobile ? 25 : 16.5;
+  const STOP_POINT = 1.6 / (TOTAL_PAGES - 1);
+  console.log("STOP_POINT", STOP_POINT);
 
   const START_Y = 0; // Start well above screen for entrance effect
   const CENTER_Y = 0;                   // Center screen
@@ -121,7 +123,7 @@ const Scene: React.FC = () => {
       <group ref={groupRef} position={[0, START_Y, 0]}>
         {/* Reduced rotationIntensity in Float so it doesn't interfere with our precise scroll rotation */}
         <Float speed={2} rotationIntensity={0} floatIntensity={0.5} floatingRange={[-0.1, 0.1]}>
-          <group ref={meshRef} scale={1}>
+          <group ref={meshRef} scale={viewportHeight < 6 || window.innerWidth < 768 ? 0.7 : 1}>
             {modelMeshes.map((mesh: any, i: number) => (
               <mesh key={i} geometry={mesh.geometry} material={mesh.material}>
                 {/* 

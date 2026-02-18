@@ -50,7 +50,10 @@ const Navbar: React.FC = () => {
                          {item.name}
                        </button>
                      ))}
-                     <button className="md:hidden w-full py-4 bg-white text-black font-display text-xl uppercase rounded-lg hover:bg-primary transition-colors">
+                     <button 
+                        onClick={() => scrollToSection('contact')}
+                        className="md:hidden w-full py-4 bg-white text-black font-display text-xl uppercase rounded-lg hover:bg-primary transition-colors"
+                     >
                         Contact Us
                      </button>
                   </div>

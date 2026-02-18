@@ -6,8 +6,13 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import ServicesTitle from './components/ServicesTitle';
 import ServicesSection from './components/ServicesSection';
+import StatsSection from './components/StatsSection';
+import AboutSection from './components/AboutSection';
+import ServicesShowcase from './components/ServicesShowcase';
+import WhyChooseSection from './components/WhyChooseSection';
 import ProcessSection from './components/ProcessSection';
-import WorkSection from './components/WorkSection';
+import TestimonialsSection from './components/TestimonialsSection';
+import FinalCTASection from './components/FinalCTASection';
 import Footer from './components/Footer';
 import Scene from './components/Scene';
 import BackgroundDecorations from './components/BackgroundDecorations';
@@ -21,7 +26,7 @@ const ScrollSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDiv
   // The total scrollable distance in pixels is roughly (pages - 1) * window.innerHeight
   
   useFrame(() => {
-    if (targetRef.current) {
+    if (targetRef.current && scroll) {
       const scrollY = scroll.offset * (pages - 1) * window.innerHeight;
       targetRef.current.style.transform = `translate3d(0, -${scrollY}px, 0)`;
     }
@@ -32,7 +37,9 @@ const ScrollSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDiv
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const backgroundRef = useRef<HTMLDivElement>(null);
-  const PAGES = 6;
+  // Responsive Pages: Mobile needs MORE length (stacked content), Desktop needs LESS (side-by-side/compact)
+  const isMobile = window.innerWidth < 768;
+  const PAGES = isMobile ? 25 : 16.5; 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -76,10 +83,18 @@ const App: React.FC = () => {
                  <Scroll html style={{ width: '100%', zIndex: 20 }}>
                     <main className="w-full relative pointer-events-auto">
                       <HeroSection />
+                      {/* Section 1.5: Title */}
                       <ServicesTitle />
+                      {/* Section 2: Radial Services */}
                       <ServicesSection />
+                      
+                      <StatsSection />
+                      <AboutSection />
+                      <ServicesShowcase />
+                      <WhyChooseSection />
                       <ProcessSection />
-                      <WorkSection />
+                      <TestimonialsSection />
+                      <FinalCTASection />
                       <Footer />
                     </main>
                  </Scroll>
