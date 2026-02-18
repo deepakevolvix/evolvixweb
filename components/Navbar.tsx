@@ -76,28 +76,28 @@ const Navbar: React.FC = () => {
       </AnimatePresence>
 
       {/* Bottom Floating Bar */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[90vw] md:w-auto md:min-w-[400px]">
-         <div className="bg-black/80 backdrop-blur-md border border-white/10 rounded-xl px-2 py-2 flex items-center justify-between shadow-2xl gap-4 md:gap-8">
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[90vw] md:w-auto md:min-w-[360px]">
+         <div className="bg-black/80 backdrop-blur-md border border-white/10 rounded-xl px-1.5 py-1.5 flex items-center justify-between shadow-2xl gap-3 md:gap-6">
             
             {/* Menu Toggle */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-primary hover:bg-white transition-colors text-black px-4 py-3 rounded-lg flex items-center gap-2 group"
+              className="bg-primary hover:bg-white transition-colors text-black px-3.5 py-2.5 rounded-lg flex items-center gap-2 group"
             >
-               {isOpen ? <X size={20} /> : <Menu size={20} />}
-               <span className="font-display text-lg uppercase hidden md:block">Menu</span>
+               {isOpen ? <X size={18} /> : <Menu size={18} />}
+               <span className="font-display text-base uppercase hidden md:block">Menu</span>
             </button>
 
             {/* Brand */}
             <div 
               onClick={() => scrollToSection('home')}
-              className="font-display text-2xl text-white uppercase tracking-wider cursor-pointer hover:text-primary transition-colors"
+              className="font-display text-xl text-white uppercase tracking-wider cursor-pointer hover:text-primary transition-colors"
             >
                EVOLVIX
             </div>
 
             {/* Contact Button */}
-            <a href="#contact" className="bg-primary hover:bg-white transition-colors text-black px-6 py-3 rounded-lg font-display text-lg uppercase whitespace-nowrap">
+            <a href="#contact" className="bg-primary hover:bg-white transition-colors text-black px-5 py-2.5 rounded-lg font-display text-base uppercase whitespace-nowrap">
                Contact Us
             </a>
 

@@ -38,7 +38,7 @@ const services = [
     headline: "Design That Speaks Before You Do.",
     description: "In the digital world, design is trust. Evolvix crafts visually stunning, intuitively structured digital experiences that captivate users from the first pixel, and keep them coming back.",
     features: ["UI/UX Design", "Brand Identity", "Motion Design", "3D Visualization"],
-    image: "https://images.unsplash.com/photo-1626785774573-4b799314346d?q=80&w=2670&auto=format&fit=crop", // Design/Abstract
+    image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2670&auto=format&fit=crop", // UI/UX Wireframing
     cta: "Design My Brand",
     tags: ["UI/UX", "Branding", "3D"]
   },

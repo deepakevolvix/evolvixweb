@@ -1,5 +1,34 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+// --- COMPONENTS ---
+const Ticker = () => {
+   const [index, setIndex] = React.useState(0);
+   const items = ["[ AI Automation ]", "[ WhatsApp Marketing ]", "[ SaaS Platforms ]", "[ Web Design Dubai ]", "[ Digital Transformation ]", "[ Evolvix ]"];
+
+   React.useEffect(() => {
+      const timer = setInterval(() => {
+         setIndex((prev) => (prev + 1) % items.length);
+      }, 1500);
+      return () => clearInterval(timer);
+   }, []);
+
+   return (
+      <div className="absolute inset-0 flex items-center">
+         <AnimatePresence mode="wait">
+            <motion.span 
+               key={index}
+               initial={{ y: 20, opacity: 0 }}
+               animate={{ y: 0, opacity: 1 }}
+               exit={{ y: -20, opacity: 0 }}
+               transition={{ duration: 0.3 }}
+               className="font-display text-2xl text-gray-500 uppercase tracking-widest"
+            >
+               {items[index]}
+            </motion.span>
+         </AnimatePresence>
+      </div>
+   );
+};
 
 const HeroSection: React.FC = () => {
   return (
@@ -15,12 +44,23 @@ const HeroSection: React.FC = () => {
           className="max-w-lg"
         >
           <p className="font-sans text-lg md:text-xl text-black mb-8 leading-relaxed">
-            We design immersive, motion-driven websites that command attention and guide users to act. Clean builds. Sharp strategy. Zero fluff.
+            Evolvix is Dubai's leading AI automation and digital solutions company — engineering smart systems, sleek interfaces, and revenue-driving strategies for brands ready to lead in the AI era.
+            <br/><br/>
+            From AI-powered SaaS tools and WhatsApp marketing automation to pixel-perfect web design and enterprise-grade IT support — we deliver end-to-end digital transformation that doesn't just keep up with the future. It builds it.
           </p>
           
-          <a href="#contact" className="inline-block bg-primary text-white font-display text-xl uppercase px-8 py-3 hover:bg-black hover:text-primary transition-colors duration-300 shadow-lg">
-             Launch My Growth
-          </a>
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+             <a href="#contact" className="inline-block bg-primary text-white font-display text-xl uppercase px-8 py-3 hover:bg-black hover:text-primary transition-colors duration-300 shadow-lg whitespace-nowrap">
+                Launch My Growth
+             </a>
+             <button onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })} className="inline-block border border-black text-black font-display text-xl uppercase px-8 py-3 hover:bg-black hover:text-white transition-colors duration-300 whitespace-nowrap">
+                Explore Our AI Stack
+             </button>
+          </div>
+
+          <div className="mt-12 h-8 relative overflow-hidden">
+             <Ticker />
+          </div>
         </motion.div>
       </div>
 
@@ -36,12 +76,11 @@ const HeroSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="font-display text-6xl md:text-8xl lg:text-[9rem] leading-[0.8] font-bold text-black uppercase tracking-tighter"
+            className="font-display text-6xl md:text-8xl lg:text-[8rem] leading-tight font-bold text-black uppercase tracking-normal"
          >
-            YOUR BRAND <br/>
-            <span className="text-primary">RESERVES</span> MORE <br/>
-            THAN A PRETTY <br/>
-            WEBSITE.
+            WE DON'T JUST <br/>
+            <span className="text-primary">AUTOMATE.</span> <br/>
+            WE EVOLVE.
          </motion.h1>
       </div>
 
