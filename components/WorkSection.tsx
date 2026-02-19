@@ -59,5 +59,5 @@ const WorkSection: React.FC = () => {
     </section>
   );
 };
-
+ 
 export default WorkSection;
