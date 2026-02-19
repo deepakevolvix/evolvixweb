@@ -21,7 +21,7 @@ const Ticker = () => {
                animate={{ y: 0, opacity: 1 }}
                exit={{ y: -20, opacity: 0 }}
                transition={{ duration: 0.3 }}
-               className="font-display text-2xl text-gray-500 uppercase tracking-widest"
+               className="font-display text-lg md:text-2xl text-gray-500 uppercase tracking-widest"
             >
                {items[index]}
             </motion.span>
@@ -34,8 +34,23 @@ const HeroSection: React.FC = () => {
   return (
     <section id="home" className="relative w-full h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 overflow-hidden bg-transparent">
       
-      {/* Left Side: Copy & CTA */}
-      <div className="w-full md:w-5/12 flex flex-col items-start z-20 pt-20 md:pt-0">
+      {/* Right Side: Headline (Top on Mobile, Right on Desktop) */}
+      <div className="w-full md:w-1/2 flex flex-col items-start md:items-end z-10 text-left md:text-right mix-blend-difference order-1 md:order-2 mb-8 md:mb-0 mt-24 md:mt-0">
+         <motion.h1 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[8rem] leading-[0.9] md:leading-tight font-bold text-black uppercase tracking-normal"
+         >
+            WE DON'T JUST <br/>
+            <span className="text-primary">AUTOMATE.</span> <br/>
+            WE EVOLVE.
+         </motion.h1>
+      </div>
+
+      {/* Left Side: Copy & CTA (Bottom on Mobile, Left on Desktop) */}
+      <div className="w-full md:w-5/12 flex flex-col items-start z-20 order-2 md:order-1">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -43,45 +58,26 @@ const HeroSection: React.FC = () => {
           viewport={{ once: true }}
           className="max-w-lg"
         >
-          <p className="font-sans text-lg md:text-xl text-black mb-8 leading-relaxed">
+          <p className="font-sans text-[15px] md:text-xl text-black mb-6 md:mb-8 leading-relaxed">
             Evolvix is Dubai's leading AI automation and digital solutions company — engineering smart systems, sleek interfaces, and revenue-driving strategies for brands ready to lead in the AI era.
-            <br/><br/>
-            From AI-powered SaaS tools and WhatsApp marketing automation to pixel-perfect web design and enterprise-grade IT support — we deliver end-to-end digital transformation that doesn't just keep up with the future. It builds it.
+            <br className="hidden md:block"/><br className="hidden md:block"/>
+            <span className="hidden md:inline">From AI-powered SaaS tools and WhatsApp marketing automation to pixel-perfect web design and enterprise-grade IT support — we deliver end-to-end digital transformation that doesn't just keep up with the future. It builds it.</span>
+            <span className="md:hidden"> We deliver end-to-end digital transformation that builds the future.</span>
           </p>
           
-          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
-             <a href="#contact" className="inline-block bg-primary text-white font-display text-xl uppercase px-8 py-3 hover:bg-black hover:text-primary transition-colors duration-300 shadow-lg whitespace-nowrap">
+          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center w-full">
+             <a href="#contact" className="w-full sm:w-auto text-center bg-primary text-white font-display text-lg md:text-xl uppercase px-6 py-3 hover:bg-black hover:text-primary transition-colors duration-300 shadow-lg whitespace-nowrap">
                 Launch My Growth
              </a>
-             <button onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })} className="inline-block border border-black text-black font-display text-xl uppercase px-8 py-3 hover:bg-black hover:text-white transition-colors duration-300 whitespace-nowrap">
+             <button onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })} className="w-full sm:w-auto text-center border border-black text-black font-display text-lg md:text-xl uppercase px-6 py-3 hover:bg-black hover:text-white transition-colors duration-300 whitespace-nowrap">
                 Explore Our AI Stack
              </button>
           </div>
 
-          <div className="mt-12 h-8 relative overflow-hidden">
+          <div className="mt-8 md:mt-12 h-6 md:h-8 relative overflow-hidden w-full">
              <Ticker />
           </div>
         </motion.div>
-      </div>
-
-      {/* Right Side: Big Headline (Behind Model usually, but Model is centered. We need to position this right) */}
-      {/* 
-          Since the 3D model is centered in the Scene, we can't easily put text "behind" it here without z-index tricks.
-          However, the user wants a split layout. 
-          Let's place this text on the right side.
-      */}
-      <div className="w-full md:w-1/2 flex flex-col items-end z-10 mt-10 md:mt-0 text-right pointer-events-none mix-blend-difference">
-         <motion.h1 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="font-display text-6xl md:text-8xl lg:text-[8rem] leading-tight font-bold text-black uppercase tracking-normal"
-         >
-            WE DON'T JUST <br/>
-            <span className="text-primary">AUTOMATE.</span> <br/>
-            WE EVOLVE.
-         </motion.h1>
       </div>
 
       {/* Hexagon Pattern (Optional Decoration) */}

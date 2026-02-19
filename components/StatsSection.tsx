@@ -20,7 +20,7 @@ const StatsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="font-display text-5xl md:text-7xl uppercase mb-6"
+            className="font-display text-4xl md:text-7xl uppercase mb-6"
           >
             Numbers That Speak <br/> <span className="text-primary">For Themselves.</span>
           </motion.h2>
@@ -29,7 +29,7 @@ const StatsSection: React.FC = () => {
              whileInView={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8, delay: 0.2 }}
              viewport={{ once: true }}
-             className="font-sans text-gray-400 text-lg md:text-xl max-w-2xl mx-auto"
+             className="font-sans text-gray-400 text-[15px] md:text-xl max-w-2xl mx-auto"
           >
             Real results. Real businesses. Real impact. Here's what Evolvix delivers.
           </motion.p>
@@ -46,8 +46,8 @@ const StatsSection: React.FC = () => {
               viewport={{ once: true }}
               className="flex flex-col items-center text-center p-6 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors"
             >
-              <span className="font-display text-5xl md:text-7xl text-primary mb-2">{stat.value}</span>
-              <span className="font-sans text-sm md:text-base font-medium text-gray-300 uppercase tracking-wider">{stat.label}</span>
+              <span className="font-display text-4xl md:text-7xl text-primary mb-2">{stat.value}</span>
+              <span className="font-sans text-[13px] md:text-base font-medium text-gray-300 uppercase tracking-wider">{stat.label}</span>
             </motion.div>
           ))}
         </div>

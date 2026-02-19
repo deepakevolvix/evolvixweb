@@ -30,7 +30,7 @@ const TestimonialsSection: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="font-display text-5xl md:text-7xl uppercase"
+            className="font-display text-4xl md:text-7xl uppercase"
           >
              What Our Clients <span className="text-primary">Are Saying.</span>
           </motion.h2>
@@ -50,13 +50,13 @@ const TestimonialsSection: React.FC = () => {
                    <Quote size={40} />
                 </div>
                 
-                <p className="font-sans text-lg md:text-xl italic text-gray-300 mb-8 leading-relaxed">
+                <p className="font-sans text-[15px] md:text-xl italic text-gray-300 mb-8 leading-relaxed">
                    "{t.quote}"
                 </p>
                 
                 <div className="border-t border-white/10 pt-6">
-                   <p className="font-display text-xl uppercase text-white">{t.author}</p>
-                   <p className="font-sans text-sm text-primary">{t.company}</p>
+                   <p className="font-display text-lg md:text-xl uppercase text-white">{t.author}</p>
+                   <p className="font-sans text-[13px] text-primary">{t.company}</p>
                 </div>
              </motion.div>
            ))}

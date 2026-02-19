@@ -70,7 +70,7 @@ const ServicesShowcase: React.FC = () => {
       
       {/* Section Title */}
       <div className="py-20 px-6 md:px-16 bg-white">
-         <h2 className="text-6xl md:text-9xl font-display font-semibold uppercase leading-[0.85] text-center">
+         <h2 className="text-4xl md:text-9xl font-display font-semibold uppercase leading-[0.85] text-center">
             Everything Your <br/> Business Needs <br/> <span className="text-primary">To Dominate.</span>
          </h2>
       </div>
@@ -85,28 +85,28 @@ const ServicesShowcase: React.FC = () => {
                 {/* Content */}
                 <div className="w-full md:w-1/2 order-2 md:order-1">
                    <div className="flex items-center gap-4 mb-6">
-                      <span className="font-display text-4xl text-primary/50">{service.id}</span>
-                      <h3 className="font-display text-3xl md:text-4xl text-black uppercase tracking-wide">{service.title}</h3>
+                      <span className="font-display text-3xl md:text-4xl text-primary/50">{service.id}</span>
+                      <h3 className="font-display text-2xl md:text-4xl text-black uppercase tracking-wide">{service.title}</h3>
                    </div>
                    
-                   <h4 className="font-sans text-xl md:text-2xl font-bold text-black mb-6 leading-tight">
+                   <h4 className="font-sans text-lg md:text-2xl font-bold text-black mb-6 leading-tight">
                       "{service.headline}"
                    </h4>
                    
-                   <p className="font-sans text-gray-600 text-lg leading-relaxed mb-8">
+                   <p className="font-sans text-gray-600 text-[15px] md:text-lg leading-relaxed mb-8">
                       {service.description}
                    </p>
 
                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
                       {service.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-sm font-medium text-gray-800 uppercase tracking-widest">
+                        <li key={i} className="flex items-center gap-2 text-[13px] md:text-sm font-medium text-gray-800 uppercase tracking-widest">
                            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
                            {feature}
                         </li>
                       ))}
                    </ul>
 
-                   <button className="group relative overflow-hidden bg-black text-white font-display text-xl uppercase px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-300">
+                   <button className="group relative overflow-hidden bg-black text-white font-display text-lg md:text-xl uppercase px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-300">
                       <span className="relative z-10 flex items-center gap-2">
                          {service.cta} 
                          <span className="group-hover:translate-x-1 transition-transform">→</span>

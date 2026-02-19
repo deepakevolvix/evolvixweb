@@ -15,13 +15,13 @@ const ProcessSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-7xl font-display uppercase leading-[0.9] text-black"
+            className="text-4xl md:text-7xl font-display uppercase leading-[0.9] text-black"
           >
             How We Turn <br />
             Your Vision <br />
             Into <span className="text-primary">Reality.</span>
           </motion.h2>
-          <p className="mt-8 font-sans text-lg text-gray-600 max-w-sm">
+          <p className="mt-8 font-sans text-[15px] md:text-lg text-gray-600 max-w-sm">
              A clear process is the backbone of every great project. At Evolvix, we follow a battle-tested approach.
           </p>
         </div>
@@ -45,10 +45,10 @@ const ProcessSection: React.FC = () => {
                   viewport={{ once: true }}
                   className="flex gap-4 border-l-2 border-primary/20 pl-6 hover:border-primary transition-colors duration-300"
                 >
-                   <span className="font-display text-2xl text-primary">{item.step}</span>
+                   <span className="font-display text-xl md:text-2xl text-primary">{item.step}</span>
                    <div>
-                      <h3 className="font-display text-xl uppercase text-black">{item.title}</h3>
-                      <p className="font-sans text-sm text-gray-500">{item.desc}</p>
+                      <h3 className="font-display text-lg md:text-xl uppercase text-black">{item.title}</h3>
+                      <p className="font-sans text-[13px] text-gray-500">{item.desc}</p>
                    </div>
                 </motion.div>
               ))}

@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
          
          {/* Brand & Tagline */}
          <div className="w-full md:w-1/3">
-            <h2 className="font-display text-4xl uppercase mb-6">Evolvix</h2>
-            <p className="font-sans text-gray-400 leading-relaxed mb-6">
+            <h2 className="font-display text-3xl md:text-4xl uppercase mb-6">Evolvix</h2>
+            <p className="font-sans text-[13px] md:text-base text-gray-400 leading-relaxed mb-6">
                Intelligent Systems. Measurable Growth. Built in Dubai for a World Without Limits.
             </p>
             <div className="flex gap-4">
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
             {/* Services */}
             <div>
                <h3 className="font-display text-xl uppercase mb-6 text-primary">Services</h3>
-               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-sm">
+               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-[13px]">
                   <li className="hover:text-white cursor-pointer transition-colors">AI Automation</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Digital Marketing</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Web Development</li>
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             {/* Company */}
             <div>
                <h3 className="font-display text-xl uppercase mb-6 text-primary">Company</h3>
-               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-sm">
+               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-[13px]">
                   <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Our Process</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Case Studies</li>
@@ -52,13 +52,12 @@ const Footer: React.FC = () => {
             {/* Legal */}
             <div>
                <h3 className="font-display text-xl uppercase mb-6 text-primary">Legal</h3>
-               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-sm">
+               <ul className="flex flex-col gap-3 font-sans text-gray-400 text-[13px]">
                   <li className="hover:text-white cursor-pointer transition-colors">Privacy Policy</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Terms of Service</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Cookie Policy</li>
                </ul>
             </div>
-
          </div>
 
       </div>

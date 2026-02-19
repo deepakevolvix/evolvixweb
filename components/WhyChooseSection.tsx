@@ -50,7 +50,7 @@ const WhyChooseSection: React.FC = () => {
              whileInView={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8 }}
              viewport={{ once: true }}
-             className="font-display text-5xl md:text-7xl uppercase leading-none text-black"
+             className="font-display text-4xl md:text-7xl uppercase leading-none text-black"
            >
              Why Dubai's Fastest-Growing <br/> Brands <span className="text-primary">Choose Evolvix.</span>
            </motion.h2>
@@ -70,8 +70,8 @@ const WhyChooseSection: React.FC = () => {
                 <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center text-primary mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-colors">
                    {reason.icon}
                 </div>
-                <h3 className="font-display text-2xl uppercase mb-4">{reason.title}</h3>
-                <p className="font-sans text-gray-600 leading-relaxed">
+                <h3 className="font-display text-xl md:text-2xl uppercase mb-4">{reason.title}</h3>
+                <p className="font-sans text-[15px] text-gray-600 leading-relaxed">
                    {reason.description}
                 </p>
              </motion.div>
