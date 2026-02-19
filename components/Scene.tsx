@@ -153,7 +153,7 @@ const Scene: React.FC = () => {
       {/* Lighting */}
       <ambientLight intensity={0.8} />
       <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#8e50bc" />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color="#69318e" />
     </>
   );
 };

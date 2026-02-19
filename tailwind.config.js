@@ -9,9 +9,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#8e50bc', // User defined purple (Reverted)
-        secondary: '#8e50bc', // Matching primary
-        lime: '#8e50bc', // Replaced Lime with Purple
+        primary: '#69318e', // Deep Purple
+        secondary: '#69318e', // Matching primary
+        lime: '#69318e', // Replaced Lime with Purple
         dark: '#0F172A',
       },
       fontFamily: {
