@@ -14,8 +14,10 @@ import ProcessSection from './components/ProcessSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import FinalCTASection from './components/FinalCTASection';
 import Footer from './components/Footer';
-import Scene from './components/Scene';
+const Scene = React.lazy(() => import('./components/Scene'));
 import BackgroundDecorations from './components/BackgroundDecorations';
+import ContactPopup from './components/ContactPopup';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // This component reads the scroll offset from ScrollControls and applies it to an external DOM element
 const ScrollSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDivElement>, pages: number }) => {
@@ -37,20 +39,54 @@ const ScrollSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDiv
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const backgroundRef = useRef<HTMLDivElement>(null);
-  // Responsive Pages: Mobile needs MORE length (stacked content), Desktop needs LESS (side-by-side/compact)
-  const isMobile = window.innerWidth < 768;
-  const PAGES = isMobile ? 25 : 16.5; 
+  
+  // Dynamic pages calculation eliminates white space after Footer
+  const [pages, setPages] = useState(1);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 4500); 
-    return () => clearTimeout(timer);
+    const updatePages = () => {
+      const mainEl = document.getElementById('main-content');
+      if (mainEl) {
+        // Required pages = Total content height / Viewport height
+        const contentHeight = mainEl.getBoundingClientRect().height;
+        const windowHeight = window.innerHeight;
+        if (windowHeight > 0) {
+          setPages(contentHeight / windowHeight);
+        }
+      }
+    };
+
+    const timer = setTimeout(updatePages, 500);
+    
+    // Attach a ResizeObserver to observe content height changes (lazy loading, resizing, etc.)
+    let observer: ResizeObserver | null = null;
+    const connectObserver = () => {
+      const mainEl = document.getElementById('main-content');
+      if (mainEl && !observer) {
+        observer = new ResizeObserver(() => {
+          updatePages();
+        });
+        observer.observe(mainEl);
+      }
+    };
+
+    // Try setting up observer repeatedly until the element exists
+    const observerTimer = setInterval(connectObserver, 1000);
+    window.addEventListener('resize', updatePages);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(observerTimer);
+      window.removeEventListener('resize', updatePages);
+      if (observer) observer.disconnect();
+    };
   }, []);
+
+
 
   return (
     <div className="relative w-full h-screen bg-gray-50 text-black overflow-hidden">
-      <Loader isLoading={loading} />
+      <Loader onLoaded={() => setLoading(false)} />
 
       <div className={`w-full h-full transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         
@@ -73,39 +109,44 @@ const App: React.FC = () => {
 
         {/* LAYER 2: Canvas (Model) */}
         <div className="fixed inset-0 z-10 pointer-events-none">
-          <Canvas gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
-            <Suspense fallback={null}>
-              <ScrollControls pages={PAGES} damping={0.3}>
-                 <Scene />
-                 <ScrollSyncer targetRef={backgroundRef} pages={PAGES} />
-                 
-                 {/* LAYER 3: Main Content (Text/Buttons) - Sits on top */}
-                 <Scroll html style={{ width: '100%', zIndex: 20 }}>
-                    <main className="w-full relative pointer-events-auto">
-                      <HeroSection />
-                      {/* Section 1.5: Title */}
-                      <ServicesTitle />
-                      {/* Section 2: Radial Services */}
-                      <ServicesSection />
-                      
-                      <StatsSection />
-                      <AboutSection />
-                      <ServicesShowcase />
-                      <WhyChooseSection />
-                      <ProcessSection />
-                      <TestimonialsSection />
-                      <FinalCTASection />
-                      <Footer />
-                    </main>
-                 </Scroll>
-              </ScrollControls>
-              <Environment preset="city" />
-            </Suspense>
-          </Canvas>
+          <ErrorBoundary>
+            <Canvas gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
+              <Suspense fallback={null}>
+                <ScrollControls pages={pages} damping={0.3}>
+                   <Scene />
+                   <ScrollSyncer targetRef={backgroundRef} pages={pages} />
+                   
+                   {/* LAYER 3: Main Content (Text/Buttons) - Sits on top */}
+                   <Scroll html style={{ width: '100%', zIndex: 20 }}>
+                      <main id="main-content" className="w-full relative pointer-events-auto">
+                        <HeroSection />
+                        {/* Section 1.5: Title */}
+                        <ServicesTitle />
+                        {/* Section 2: Radial Services */}
+                        <ServicesSection />
+                        
+                        <StatsSection />
+                        <AboutSection />
+                        <ServicesShowcase />
+                        <WhyChooseSection />
+                        <ProcessSection />
+                        <TestimonialsSection />
+                        <FinalCTASection />
+                        <Footer />
+                      </main>
+                   </Scroll>
+                </ScrollControls>
+                <Environment preset="city" />
+              </Suspense>
+            </Canvas>
+          </ErrorBoundary>
         </div>
 
         {/* Navbar - Z-50 to float above everything */}
         <Navbar />
+        
+        {/* Contact Popup */}
+        <ContactPopup />
       </div>
     </div>
   );

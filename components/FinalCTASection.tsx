@@ -37,14 +37,17 @@ const FinalCTASection: React.FC = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center gap-6"
          >
-           <button className="bg-white text-primary font-display text-xl md:text-3xl uppercase px-10 py-5 rounded-full shadow-2xl hover:scale-105 transition-transform duration-300">
+           <button 
+             onClick={() => window.dispatchEvent(new CustomEvent('open-contact-popup'))}
+             className="bg-white text-primary font-display text-xl md:text-3xl uppercase px-10 py-5 rounded-full shadow-2xl hover:scale-105 transition-transform duration-300"
+           >
               Start My Digital Transformation
            </button>
            
            <div className="flex flex-col md:flex-row gap-4 md:gap-8 text-white/80 font-sans text-[13px] md:text-base">
-              <span>hello@evolvix.com</span>
+              <span>admin@evolvix.ae</span>
               <span className="hidden md:inline">•</span>
-              <span>WhatsApp: +971 XX XXX XXXX</span>
+              <span>WhatsApp: +971585745334</span>
            </div>
          </motion.div>
       </div>

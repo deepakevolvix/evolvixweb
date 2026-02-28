@@ -51,7 +51,10 @@ const Navbar: React.FC = () => {
                        </button>
                      ))}
                      <button 
-                        onClick={() => scrollToSection('contact')}
+                        onClick={() => {
+                          setIsOpen(false);
+                          window.dispatchEvent(new CustomEvent('open-contact-popup'));
+                        }}
                         className="md:hidden w-full py-4 bg-white text-black font-display text-xl uppercase rounded-lg hover:bg-primary transition-colors"
                      >
                         Contact Us
@@ -97,9 +100,12 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Contact Button */}
-            <a href="#contact" className="bg-primary hover:bg-white transition-colors text-black px-5 py-2.5 rounded-lg font-display text-base uppercase whitespace-nowrap">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent('open-contact-popup'))}
+              className="bg-primary hover:bg-white transition-colors text-black px-5 py-2.5 rounded-lg font-display text-base uppercase whitespace-nowrap"
+            >
                Contact Us
-            </a>
+            </button>
 
          </div>
       </div>

@@ -42,13 +42,9 @@ const Scene: React.FC = () => {
   /* 
      NOTE: 
      Please ensure the following files are in 'public/evolvix-model/':
-     - evolvix_logo_3d_model.gltf
-     - buffer.bin
-     - baseColor_1.jpg
-     - metallicRoughness_1.jpg
-     - normal_1.jpg
+     - newevolvixmodel.glb
   */
-  const { nodes } = useGLTF(`${import.meta.env.BASE_URL}evolvix-model/evolvix_logo_3d_model.gltf`) as any;
+  const { nodes } = useGLTF(`${import.meta.env.BASE_URL}evolvix-model/newevolvixmodel.glb`) as any;
 
   // Extract all meshes from the loaded GLTF nodes
   const modelMeshes = useMemo(() => {
@@ -64,7 +60,6 @@ const Scene: React.FC = () => {
   const isMobile = window.innerWidth < 768;
   const TOTAL_PAGES = isMobile ? 25 : 16.5;
   const STOP_POINT = 1.6 / (TOTAL_PAGES - 1);
-  console.log("STOP_POINT", STOP_POINT);
 
   const START_Y = 0; // Start well above screen for entrance effect
   const CENTER_Y = 0;                   // Center screen
@@ -123,9 +118,19 @@ const Scene: React.FC = () => {
       <group ref={groupRef} position={[0, START_Y, 0]}>
         {/* Reduced rotationIntensity in Float so it doesn't interfere with our precise scroll rotation */}
         <Float speed={2} rotationIntensity={0} floatIntensity={0.5} floatingRange={[-0.1, 0.1]}>
-          <group ref={meshRef} scale={viewportHeight < 6 || window.innerWidth < 768 ? 0.7 : 1}>
+          {/* 
+            Adjust the scale here: [X (Width), Y (Height), Z (Depth)]
+            Initial numbers are [1, 1, 1] for Desktop. Try [1, 1.2, 1] if it looks squished vertically, etc.
+          */}
+          <group 
+            ref={meshRef} 
+            scale={viewportHeight < 6 || window.innerWidth < 768 
+              ? [0.7, 0.7, 0.7] // Mobile Scale [x, y, z]
+              : [1, 1, 0.7]       // Desktop Scale [x, y, z]
+            }
+          >
             {modelMeshes.map((mesh: any, i: number) => (
-              <mesh key={i} geometry={mesh.geometry} material={mesh.material}>
+              <mesh key={i} geometry={mesh.geometry} material={mesh.material}>.
                 {/* 
                   <MeshTransmissionMaterial 
                     backside
@@ -159,6 +164,6 @@ const Scene: React.FC = () => {
 };
 
 // Preload the model
-useGLTF.preload(`${import.meta.env.BASE_URL}evolvix-model/evolvix_logo_3d_model.gltf`);
+useGLTF.preload(`${import.meta.env.BASE_URL}evolvix-model/newevolvixmodel.glb`);
 
 export default Scene;

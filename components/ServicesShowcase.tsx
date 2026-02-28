@@ -106,7 +106,10 @@ const ServicesShowcase: React.FC = () => {
                       ))}
                    </ul>
 
-                   <button className="group relative overflow-hidden bg-black text-white font-display text-lg md:text-xl uppercase px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-300">
+                   <button 
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-contact-popup'))}
+                      className="group relative overflow-hidden bg-black text-white font-display text-lg md:text-xl uppercase px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-300"
+                   >
                       <span className="relative z-10 flex items-center gap-2">
                          {service.cta} 
                          <span className="group-hover:translate-x-1 transition-transform">→</span>

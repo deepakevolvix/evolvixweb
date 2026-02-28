@@ -1,32 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useProgress } from '@react-three/drei';
 
 interface LoaderProps {
-  isLoading: boolean;
+  onLoaded?: () => void;
 }
 
-const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
-  const [progress, setProgress] = useState(0);
+const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
+  const { progress, active } = useProgress();
+  const [displayProgress, setDisplayProgress] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+  const onLoadedFired = useRef(false);
 
   useEffect(() => {
-    if (isLoading) {
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 99) return 99;
-          // Non-linear increment for realism
-          const increment = Math.random() * 5; 
-          return Math.min(prev + increment, 99);
+    // Determine the target progress to display
+    const targetProgress = isReady ? 100 : progress;
+
+    // We can animate the progress reading rather than jumping abruptly
+    if (displayProgress < targetProgress) {
+      const timer = setTimeout(() => {
+        setDisplayProgress(prev => {
+          const increment = Math.random() * 8 + 2; 
+          return Math.min(prev + increment, targetProgress);
         });
-      }, 100);
-      return () => clearInterval(interval);
-    } else {
-        setProgress(100);
+      }, 50);
+      return () => clearTimeout(timer);
     }
-  }, [isLoading]);
+    
+    // Once exactly 100 and ready, ensure we fire the callback exactly once
+    if (displayProgress === 100 && isReady && onLoaded && !onLoadedFired.current) {
+        onLoadedFired.current = true;
+        // Small delay to let user see "100" before fading away
+        setTimeout(() => {
+          onLoaded();
+        }, 1500);
+    }
+
+  }, [progress, displayProgress, isReady, onLoaded]);
+
+  useEffect(() => {
+    // When 3D assets are truly 100% loaded and no longer active
+    if (progress === 100 && !active && !isReady) {
+      setIsReady(true);
+    }
+  }, [progress, active, isReady]);
 
   return (
     <AnimatePresence>
-      {isLoading || progress < 100 ? (
+      {!isReady || displayProgress < 100 ? (
         <motion.div
           key="loader"
           initial={{ y: 0 }}
@@ -46,7 +67,7 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
           {/* Center Counter */}
           <div className="relative z-10">
              <span className="font-display text-[25vw] leading-none text-white tracking-tighter">
-                {Math.floor(progress)}
+                {Math.floor(displayProgress)}
              </span>
           </div>
 
@@ -61,7 +82,7 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
                 </span>
                 
                 <span className="font-display text-2xl md:text-3xl text-white uppercase">
-                   {progress === 100 ? 'Ready' : 'Loading Assets'}
+                   {isReady ? 'Ready' : 'Loading Assets'}
                 </span>
              </div>
           </div>
