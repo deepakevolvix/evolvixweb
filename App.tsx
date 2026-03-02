@@ -120,6 +120,8 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+    
     const updatePages = () => {
       const mainEl = document.getElementById('main-content');
       if (mainEl) {
@@ -127,9 +129,16 @@ const App: React.FC = () => {
         const contentHeight = mainEl.getBoundingClientRect().height;
         const windowHeight = window.innerHeight;
         if (windowHeight > 0) {
-          setPages(contentHeight / windowHeight);
+          // Add a tiny buffer (0.05) to prevent mobile touch-bounce from hitting the exact bottom edge and clipping
+          setPages((contentHeight / windowHeight) + 0.05);
         }
       }
+    };
+
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      // Debounce window resizes (like mobile URL bars appearing hiding) by 500ms so we don't reset ScrollControls
+      resizeTimeout = setTimeout(updatePages, 500);
     };
 
     const timer = setTimeout(updatePages, 500);
@@ -148,12 +157,13 @@ const App: React.FC = () => {
 
     // Try setting up observer repeatedly until the element exists
     const observerTimer = setInterval(connectObserver, 1000);
-    window.addEventListener('resize', updatePages);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(resizeTimeout);
       clearInterval(observerTimer);
-      window.removeEventListener('resize', updatePages);
+      window.removeEventListener('resize', handleResize);
       if (observer) observer.disconnect();
     };
   }, []);
