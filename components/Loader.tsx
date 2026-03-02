@@ -48,7 +48,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
           key="loader"
           initial={{ y: 0 }}
           exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
-          className="fixed inset-0 z-50 bg-primary flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[100] bg-primary flex flex-col items-center justify-center overflow-hidden"
         >
           {/* Top Bar */}
           <div className="absolute top-0 left-0 w-full p-6 md:p-10 flex justify-between items-start">

@@ -181,7 +181,8 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-30 pointer-events-none">
           <ErrorBoundary>
             {/* pointerEvents: 'none' on canvas itself guarantees it passes clicks down to HTML! */}
-            <Canvas style={{ pointerEvents: 'none' }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
+            {/* position: 'absolute' and zIndex: 10 on Canvas guarantees it paints ABOVE the ScrollControls HTML! */}
+            <Canvas style={{ position: 'absolute', zIndex: 10, pointerEvents: 'none' }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
               <ScrollControls pages={pages} damping={0.3}>
                  {/* Suspense now ONLY wraps the 3D Model so HTML text renders instantly! */}
                  <Suspense fallback={null}>
