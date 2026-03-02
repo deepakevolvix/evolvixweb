@@ -27,7 +27,7 @@ const BackgroundDecorations: React.FC = () => {
          {/* Grid Lines */}
          <div className="absolute inset-0">
              <div className="absolute left-1/2 -translate-x-1/2 w-[1px] h-full bg-black/10" />
-             <div className="absolute top-1/2 -translate-y-1/2 w-full h-[1px] bg-black/10" />
+             <div id="model-stop-marker" className="absolute top-1/2 -translate-y-1/2 w-full h-[1px] bg-black/10" />
              <div className="absolute bottom-0 w-full h-[1px] bg-black/10" />
          </div>
       </div>

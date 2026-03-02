@@ -14,34 +14,110 @@ import ProcessSection from './components/ProcessSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import FinalCTASection from './components/FinalCTASection';
 import Footer from './components/Footer';
-const Scene = React.lazy(() => import('./components/Scene'));
 import BackgroundDecorations from './components/BackgroundDecorations';
 import ContactPopup from './components/ContactPopup';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// This component reads the scroll offset from ScrollControls and applies it to an external DOM element
-const ScrollSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDivElement>, pages: number }) => {
+const Scene = React.lazy(() => import('./components/Scene'));
+
+// Exposes Drei's internal scroll element and scroll.offset to the window
+const ScrollHooker = ({ onStopFraction }: { onStopFraction: (f: number) => void }) => {
   const scroll = useScroll();
   const { height } = useThree((state) => state.viewport);
-  // viewport height in pixels can be approximated or we can use window.innerHeight
-  // ScrollControls `scroll.offset` is 0 to 1.
-  // The total scrollable distance in pixels is roughly (pages - 1) * window.innerHeight
   
   useFrame(() => {
-    if (targetRef.current && scroll) {
-      const scrollY = scroll.offset * (pages - 1) * window.innerHeight;
-      targetRef.current.style.transform = `translate3d(0, -${scrollY}px, 0)`;
+    if (scroll) {
+      // Expose to window for external non-canvas components to sync
+      (window as any).__scrollOffset = scroll.offset;
+      (window as any).__scrollEl = scroll.el;
+
+      // 1. Calculate where the marker is physically located in the scrollable document
+      const markerEl = document.getElementById('model-stop-marker');
+      const rootEl = document.getElementById('main-content');
+      
+      if (markerEl && rootEl) {
+        // Find total scrollable height exactly based on the React DOM content
+        const totalHeight = rootEl.getBoundingClientRect().height;
+        const viewportHeight = window.innerHeight;
+        const totalScrollablePixels = totalHeight - viewportHeight;
+        
+        // Find absolute pixel distance of marker from top of document
+        // We use getBoundingClientRect + scrollY to get true document coordinates
+        const markerRect = markerEl.getBoundingClientRect();
+        const rootRect = rootEl.getBoundingClientRect();
+        const markerY = markerRect.top - rootRect.top;
+
+        // We want the model to lock when the marker reaches the CENTER of the viewport
+        const targetScrollPixels = markerY - (viewportHeight / 2);
+        
+        // Convert that pixel distance into a 0-1 fraction
+        let fraction = targetScrollPixels / totalScrollablePixels;
+        
+        // Clamp and update state (avoid setting negative or over 100%)
+        fraction = Math.max(0, Math.min(1, fraction));
+        onStopFraction(fraction);
+      }
     }
   });
   return null;
 };
 
+// Syncs HTML background elements with the ThreeJS canvas scroll
+const HTMLSyncer = ({ targetRef, pages }: { targetRef: React.RefObject<HTMLDivElement>, pages: number }) => {
+  useEffect(() => {
+    let animationFrameId: number;
+    let fallbackTimer: NodeJS.Timeout;
+
+    const syncScroll = () => {
+      if (targetRef.current) {
+        // Try to read exactly what three.js is using
+        const offset = (window as any).__scrollOffset;
+        if (typeof offset === 'number') {
+          const scrollY = offset * (pages - 1) * window.innerHeight;
+          targetRef.current.style.transform = `translate3d(0, -${scrollY}px, 0)`;
+        } else {
+          // If drei hasn't mounted yet, use native fallback
+          const el = document.querySelector('div[style*="overflow: auto"]') as HTMLElement | null;
+          if (el) {
+             const manualOffset = el.scrollTop / (el.scrollHeight - el.clientHeight);
+             const scrollY = manualOffset * (pages - 1) * window.innerHeight;
+             targetRef.current.style.transform = `translate3d(0, -${scrollY}px, 0)`;
+          }
+        }
+      }
+      animationFrameId = requestAnimationFrame(syncScroll);
+    };
+
+    // Delay start slightly to allow Drei to mount its scroll container
+    fallbackTimer = setTimeout(() => {
+      syncScroll();
+    }, 100);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      clearTimeout(fallbackTimer);
+    };
+  }, [pages, targetRef]);
+
+  return null;
+};
+
+
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const [stopFraction, setStopFraction] = useState(0.12);
   
   // Dynamic pages calculation eliminates white space after Footer
   const [pages, setPages] = useState(1);
+
+  // Smooth fraction updater
+  const updateStopFraction = (f: number) => {
+    setStopFraction((prev) => {
+      if (Math.abs(prev - f) > 0.005) return f;
+      return prev;
+    });
+  };
 
   useEffect(() => {
     const updatePages = () => {
@@ -90,15 +166,6 @@ const App: React.FC = () => {
 
       <div className={`w-full h-full transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         
-        {/* 
-            Z-INDEX LAYERING STRATEGY:
-            1. Background Decorations (HTML Container): z-0
-               - Sits physically behind everything.
-               - Moved manually by ScrollSyncer to match Canvas scroll.
-            2. Canvas Wrapper (Model): z-10
-            3. Main Content (ScrollControls HTML): z-20
-        */}
-
         {/* LAYER 1: Background Decorations */}
         <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
            {/* This container moves up/down based on scroll */}
@@ -106,6 +173,9 @@ const App: React.FC = () => {
               <BackgroundDecorations />
            </div>
         </div>
+        
+        {/* Standalone Syncer outside Canvas to hook into exposed window properties */}
+        <HTMLSyncer targetRef={backgroundRef} pages={pages} />
 
         {/* LAYER 2: Canvas (Model) */}
         <div className="fixed inset-0 z-10 pointer-events-none">
@@ -113,8 +183,8 @@ const App: React.FC = () => {
             <Canvas gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
               <Suspense fallback={null}>
                 <ScrollControls pages={pages} damping={0.3}>
-                   <Scene />
-                   <ScrollSyncer targetRef={backgroundRef} pages={pages} />
+                   <Scene pages={pages} stopFraction={stopFraction} />
+                   <ScrollHooker onStopFraction={updateStopFraction} />
                    
                    {/* LAYER 3: Main Content (Text/Buttons) - Sits on top */}
                    <Scroll html style={{ width: '100%', zIndex: 20 }}>

@@ -13,37 +13,33 @@ const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
   const onLoadedFired = useRef(false);
 
   useEffect(() => {
-    // Determine the target progress to display
-    const targetProgress = isReady ? 100 : progress;
-
-    // We can animate the progress reading rather than jumping abruptly
-    if (displayProgress < targetProgress) {
-      const timer = setTimeout(() => {
-        setDisplayProgress(prev => {
-          const increment = Math.random() * 8 + 2; 
-          return Math.min(prev + increment, targetProgress);
-        });
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-    
-    // Once exactly 100 and ready, ensure we fire the callback exactly once
-    if (displayProgress === 100 && isReady && onLoaded && !onLoadedFired.current) {
-        onLoadedFired.current = true;
-        // Small delay to let user see "100" before fading away
-        setTimeout(() => {
-          onLoaded();
-        }, 1500);
-    }
-
-  }, [progress, displayProgress, isReady, onLoaded]);
+    // Simulate a fast loading progress independent of the heavy 3D model
+    const timer = setInterval(() => {
+      setDisplayProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          return 100;
+        }
+        return prev + 4; // increment by 4 every 30ms = ~750ms total
+      });
+    }, 30);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
-    // When 3D assets are truly 100% loaded and no longer active
-    if (progress === 100 && !active && !isReady) {
-      setIsReady(true);
+    if (displayProgress >= 100 && !isReady) {
+      setTimeout(() => setIsReady(true), 400); // Short delay before curtain raises
     }
-  }, [progress, active, isReady]);
+  }, [displayProgress, isReady]);
+
+  const targetProgress = 100;
+
+  useEffect(() => {
+    if (displayProgress === 100 && isReady && onLoaded && !onLoadedFired.current) {
+        onLoadedFired.current = true;
+        onLoaded();
+    }
+  }, [displayProgress, targetProgress, isReady, onLoaded]);
 
   return (
     <AnimatePresence>
@@ -82,7 +78,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
                 </span>
                 
                 <span className="font-display text-2xl md:text-3xl text-white uppercase">
-                   {isReady ? 'Ready' : 'Loading Assets'}
+                   {isReady ? 'Ready' : (displayProgress >= 100 ? 'Initializing' : 'Loading Assets')}
                 </span>
              </div>
           </div>
