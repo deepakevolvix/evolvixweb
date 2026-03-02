@@ -180,16 +180,19 @@ const App: React.FC = () => {
         {/* LAYER 2: Canvas (Model) - Raised z-index to 30 so it ALWAYS stays in front of text */}
         <div className="fixed inset-0 z-30 pointer-events-none">
           <ErrorBoundary>
-            <Canvas gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
-              <Suspense fallback={null}>
-                <ScrollControls pages={pages} damping={0.3}>
+            {/* pointerEvents: 'none' on canvas itself guarantees it passes clicks down to HTML! */}
+            <Canvas style={{ pointerEvents: 'none' }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
+              <ScrollControls pages={pages} damping={0.3}>
+                 {/* Suspense now ONLY wraps the 3D Model so HTML text renders instantly! */}
+                 <Suspense fallback={null}>
                    <Scene pages={pages} stopFraction={stopFraction} />
-                   <ScrollHooker onStopFraction={updateStopFraction} />
-                   
-                   {/* LAYER 3: Main Content (Text/Buttons) - Sits on top */}
-                   <Scroll html style={{ width: '100%', zIndex: 20 }}>
-                      <main id="main-content" className="w-full relative pointer-events-auto">
-                        <HeroSection />
+                 </Suspense>
+                 <ScrollHooker onStopFraction={updateStopFraction} />
+                 
+                 {/* LAYER 3: Main Content (Text/Buttons) - zIndex: -1 pushes it BEHIND the 3D canvas natively! */}
+                 <Scroll html style={{ width: '100%', zIndex: -1 }}>
+                    <main id="main-content" className="w-full relative pointer-events-auto">
+                      <HeroSection />
                         {/* Section 1.5: Title */}
                         <ServicesTitle />
                         {/* Section 2: Radial Services */}
@@ -207,7 +210,6 @@ const App: React.FC = () => {
                    </Scroll>
                 </ScrollControls>
                 <Environment preset="city" />
-              </Suspense>
             </Canvas>
           </ErrorBoundary>
         </div>
