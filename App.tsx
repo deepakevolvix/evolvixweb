@@ -164,7 +164,7 @@ const App: React.FC = () => {
     <div className="relative w-full h-screen bg-gray-50 text-black overflow-hidden">
       <Loader onLoaded={() => setLoading(false)} />
 
-      <div className={`w-full h-full transition-opacity duration-1000 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="w-full h-full">
         
         {/* LAYER 1: Background Decorations */}
         <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
@@ -177,8 +177,8 @@ const App: React.FC = () => {
         {/* Standalone Syncer outside Canvas to hook into exposed window properties */}
         <HTMLSyncer targetRef={backgroundRef} pages={pages} />
 
-        {/* LAYER 2: Canvas (Model) */}
-        <div className="fixed inset-0 z-10 pointer-events-none">
+        {/* LAYER 2: Canvas (Model) - Raised z-index to 30 so it ALWAYS stays in front of text */}
+        <div className="fixed inset-0 z-30 pointer-events-none">
           <ErrorBoundary>
             <Canvas gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
               <Suspense fallback={null}>

@@ -71,8 +71,8 @@ const Scene: React.FC<SceneProps> = ({ pages, stopFraction }) => {
     meshRef.current.rotation.y = -(time * 0.3 + spinProgress * Math.PI * 2);
     meshRef.current.rotation.x = Math.sin(lockedRotationTime * 0.5) * 0.1;
 
-    // The gentle float continues forever using real time
-    const floatY = Math.sin(time * 1.5) * 0.08;
+    // The gentle Y-axis float has been removed per user request so the model stays perfectly still
+    const floatY = 0;
 
     let targetY = 0;
 
