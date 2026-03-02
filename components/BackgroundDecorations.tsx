@@ -7,7 +7,7 @@ const BackgroundDecorations: React.FC = () => {
       
       {/* --- HERO SECTION DECORATIONS (0 - 100vh) --- */}
       <div className="absolute top-0 left-0 w-full h-screen overflow-hidden pointer-events-none">
-        <div className="absolute left-[-2rem] bottom-10 opacity-40">
+        <div className="hidden md:block absolute left-[-2rem] bottom-10 opacity-40">
            <AnimatedHexGrid rows={4} cols={3} className="transform rotate-12" />
         </div>
       </div>
@@ -16,11 +16,11 @@ const BackgroundDecorations: React.FC = () => {
           Services section follows Hero (100vh) + Title (60vh) = starts at 160vh
       */}
       <div className="absolute top-[160vh] left-0 w-full h-screen overflow-hidden pointer-events-none">
-         {/* Hex Grids */}
-         <div className="absolute left-[-2rem] top-1/4 opacity-30">
+         {/* Hex Grids (Hidden on Mobile) */}
+         <div className="hidden md:block absolute left-[-2rem] top-1/4 opacity-30">
              <AnimatedHexGrid rows={4} cols={3} className="transform rotate-0" />
          </div>
-         <div className="absolute right-[-2rem] bottom-1/4 opacity-30">
+         <div className="hidden md:block absolute right-[-2rem] bottom-1/4 opacity-30">
              <AnimatedHexGrid rows={3} cols={3} className="transform -rotate-12" />
          </div>
 
@@ -34,10 +34,10 @@ const BackgroundDecorations: React.FC = () => {
 
       {/* --- PROCESS SECTION DECORATIONS (approx 260vh - 360vh) --- */}
       <div className="absolute top-[260vh] left-0 w-full h-screen overflow-hidden pointer-events-none">
-        <div className="absolute left-[-2rem] bottom-10 md:bottom-1/4 opacity-60">
+        <div className="hidden md:block absolute left-[-2rem] bottom-10 md:bottom-1/4 opacity-60">
           <AnimatedHexGrid rows={4} cols={3} className="transform rotate-12" />
         </div>
-        <div className="absolute right-[-2rem] top-10 md:top-1/4 opacity-60">
+        <div className="hidden md:block absolute right-[-2rem] top-10 md:top-1/4 opacity-60">
           <AnimatedHexGrid rows={4} cols={3} className="transform -rotate-12" />
         </div>
       </div>
