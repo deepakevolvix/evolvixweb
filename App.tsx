@@ -129,8 +129,9 @@ const App: React.FC = () => {
         const contentHeight = mainEl.getBoundingClientRect().height;
         const windowHeight = window.innerHeight;
         if (windowHeight > 0) {
-          // Add a tiny buffer (0.05) to prevent mobile touch-bounce from hitting the exact bottom edge and clipping
-          setPages((contentHeight / windowHeight) + 0.05);
+          // Add a larger buffer (0.1) to prevent mobile touch-bounce from hitting the exact bottom edge and clipping
+          // This ensures the footer is always fully visible on Android/Brave/Chrome
+          setPages((contentHeight / windowHeight) + 0.1);
         }
       }
     };
@@ -170,8 +171,33 @@ const App: React.FC = () => {
 
 
 
+  // SAFE iOS SAFARI FIX
+  // Only applies the required -webkit-overflow-scrolling directly to the
+  // scroll containers Drei creates, without modifying the root layout which
+  // breaks Android.
+  useEffect(() => {
+    const patchIOSScroll = () => {
+      const scrollDivs = document.querySelectorAll<HTMLElement>('div[style*="overflow"]');
+      scrollDivs.forEach((el) => {
+        const style = el.style.overflow || '';
+        if (style.includes('auto') || style.includes('scroll')) {
+          el.style.setProperty('-webkit-overflow-scrolling', 'touch');
+        }
+      });
+    };
+
+    // Run patch on mount, and slightly delayed to wait for Drei
+    patchIOSScroll();
+    const t1 = setTimeout(patchIOSScroll, 500);
+    const t2 = setTimeout(patchIOSScroll, 1500);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [loading]);
+
   return (
-    <div className="relative w-full h-screen bg-gray-50 text-black overflow-hidden">
+    <div className="relative w-full h-[100dvh] bg-gray-50 text-black overflow-hidden">
       <Loader onLoaded={() => setLoading(false)} />
 
       <div className="w-full h-full">
@@ -188,7 +214,7 @@ const App: React.FC = () => {
         <HTMLSyncer targetRef={backgroundRef} pages={pages} />
 
         {/* LAYER 2: Canvas (Model) - Raised z-index to 30 so it ALWAYS stays in front of text */}
-        <div className="fixed inset-0 z-30 pointer-events-none">
+        <div id="canvas-root" className="fixed inset-0 z-30 pointer-events-none">
           <ErrorBoundary>
             {/* pointerEvents: 'none' on canvas itself guarantees it passes clicks down to HTML! */}
             {/* position: 'absolute' and zIndex: 10 on Canvas guarantees it paints ABOVE the ScrollControls HTML! */}
