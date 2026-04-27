@@ -33,7 +33,6 @@ html {
 div[style*="overflow: auto"],
 div[style*="overflow:scroll"],
 div[style*="overflow: scroll"] {
-  -webkit-overflow-scrolling: touch !important;
   overscroll-behavior-y: none !important;
   touch-action: pan-y !important;
 }

@@ -6,6 +6,29 @@ interface LoaderProps {
   onLoaded?: () => void;
 }
 
+function lockScroll() {
+  const scrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top      = `-${scrollY}px`;
+  document.body.style.width    = '100%';
+  document.body.style.overflow = 'hidden';
+}
+
+function unlockScroll() {
+  const scrollY = document.body.style.top
+    ? -parseInt(document.body.style.top)
+    : 0;
+
+  document.body.style.overflow   = '';
+  document.body.style.position   = '';
+  document.body.style.top        = '';
+  document.body.style.width      = '';
+  document.body.style.height     = '';
+  document.documentElement.style.overflow = '';
+
+  window.scrollTo(0, scrollY);
+}
+
 const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
   const { progress, active } = useProgress();
   const [displayProgress, setDisplayProgress] = useState(0);
@@ -13,6 +36,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
   const onLoadedFired = useRef(false);
 
   useEffect(() => {
+    lockScroll();
     // Simulate a fast loading progress independent of the heavy 3D model
     const timer = setInterval(() => {
       setDisplayProgress((prev) => {
@@ -37,6 +61,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoaded }) => {
   useEffect(() => {
     if (displayProgress === 100 && isReady && onLoaded && !onLoadedFired.current) {
         onLoadedFired.current = true;
+        unlockScroll();
         onLoaded();
     }
   }, [displayProgress, targetProgress, isReady, onLoaded]);
