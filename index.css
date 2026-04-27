@@ -19,21 +19,18 @@ body {
   overscroll-behavior-y: none !important;
 }
 
-html {
-  background-color: #0F172A;
-  overscroll-behavior-y: none !important;
+html, body {
+  height: 100% !important;
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* =====================================================
-   SAFE iOS SAFARI SCROLL FIX
-   Target the Drei scroll container specifically for 
-   momentum scrolling without breaking Android flex
-   ===================================================== */
-#canvas-root > div,
-div[style*="overflow: auto"],
-div[style*="overflow:scroll"],
-div[style*="overflow: scroll"] {
-  overscroll-behavior-y: none !important;
+/* Force the scroll container to be interactive on iOS */
+#canvas-root > div > div > div[style*="overflow: hidden auto"],
+#canvas-root div[style*="overflow: auto"],
+#canvas-root div[style*="overflow"] {
+  pointer-events: auto !important;
+  -webkit-overflow-scrolling: touch !important;
   touch-action: pan-y !important;
 }
 

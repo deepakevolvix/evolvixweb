@@ -274,6 +274,18 @@ const App: React.FC = () => {
     };
   }, [loading]);
 
+  // Exact fix from client diagnostic
+  useEffect(() => {
+    if (!loading) {
+        // Force re-enable pointer events on the scroll container
+        const scrollEl = document.querySelector('#canvas-root div[style*="overflow: hidden auto"], #canvas-root div[style*="overflow: auto"]') as HTMLElement | null;
+        if (scrollEl) {
+            scrollEl.style.setProperty('pointer-events', 'auto', 'important');
+        }
+        document.body.style.setProperty('overflow', 'auto', 'important');
+    }
+  }, [loading]);
+
   return (
     <div className="w-full min-h-[100dvh] bg-gray-50 text-black">
       <Loader onLoaded={() => setLoading(false)} />
