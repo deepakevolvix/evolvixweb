@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const ProcessSection: React.FC = () => {
   return (
-    <section id="process" className="relative w-full min-h-screen flex items-center justify-center bg-gray-50 px-6 md:px-16 overflow-hidden py-20">
+    <section id="process" className="relative w-full min-h-screen flex items-center justify-center bg-gray-50 px-6 md:px-16 py-20">
       
       {/* Content Container */}
       <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between z-10 pointer-events-auto">

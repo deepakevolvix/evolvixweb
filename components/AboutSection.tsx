@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="relative w-full py-24 bg-white text-black px-6 md:px-16 overflow-hidden z-20">
+    <section className="relative w-full py-24 bg-white text-black px-6 md:px-16 z-20">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-20">
         
         {/* Left: Text Content */}

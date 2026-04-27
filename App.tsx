@@ -16,6 +16,7 @@ import FinalCTASection from './components/FinalCTASection';
 import Footer from './components/Footer';
 import BackgroundDecorations from './components/BackgroundDecorations';
 import ContactPopup from './components/ContactPopup';
+import PrivacyPolicyPopup from './components/PrivacyPolicyPopup';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Scene = React.lazy(() => import('./components/Scene'));
@@ -197,7 +198,7 @@ const App: React.FC = () => {
   }, [loading]);
 
   return (
-    <div className="relative w-full h-[100dvh] bg-gray-50 text-black overflow-hidden">
+    <div className="relative w-full min-h-[100dvh] bg-gray-50 text-black">
       <Loader onLoaded={() => setLoading(false)} />
 
       <div className="w-full h-full">
@@ -256,6 +257,9 @@ const App: React.FC = () => {
         
         {/* Contact Popup */}
         <ContactPopup />
+
+        {/* Privacy Policy Popup */}
+        <PrivacyPolicyPopup />
       </div>
     </div>
   );

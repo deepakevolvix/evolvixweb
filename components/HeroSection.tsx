@@ -32,7 +32,7 @@ const Ticker = () => {
 
 const HeroSection: React.FC = () => {
   return (
-    <section id="home" className="relative w-full h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 overflow-hidden bg-transparent">
+    <section id="home" className="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 bg-transparent">
       
       {/* Right Side: Headline (Top on Mobile, Right on Desktop) */}
       <div className="w-full md:w-1/2 flex flex-col items-start md:items-end z-10 text-left md:text-right mix-blend-difference order-1 md:order-2 mb-8 md:mb-0 mt-24 md:mt-0">

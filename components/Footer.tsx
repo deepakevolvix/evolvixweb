@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative w-full py-20 bg-black text-white px-6 md:px-16 z-20 overflow-hidden">
+    <footer className="relative w-full py-20 bg-black text-white px-6 md:px-16 z-20">
       
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
          
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
             <div>
                <h3 className="font-display text-xl uppercase mb-6 text-primary">Legal</h3>
                <ul className="flex flex-col gap-3 font-sans text-gray-400 text-[13px]">
-                  <li className="hover:text-white cursor-pointer transition-colors">Privacy Policy</li>
+                  <li onClick={() => window.dispatchEvent(new CustomEvent('open-privacy-policy'))} className="hover:text-white cursor-pointer transition-colors">Privacy Policy</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Terms of Service</li>
                   <li className="hover:text-white cursor-pointer transition-colors">Cookie Policy</li>
                </ul>

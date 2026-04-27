@@ -10,7 +10,7 @@ const stats = [
 
 const StatsSection: React.FC = () => {
   return (
-    <section className="relative w-full py-20 bg-black text-white px-6 md:px-16 overflow-hidden z-20">
+    <section className="relative w-full py-20 bg-black text-white px-6 md:px-16 z-20">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}

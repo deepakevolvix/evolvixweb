@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const FinalCTASection: React.FC = () => {
   return (
-    <section id="contact" className="relative w-full py-32 bg-primary px-6 md:px-16 overflow-hidden z-20 flex items-center justify-center text-center">
+    <section id="contact" className="relative w-full py-32 bg-primary px-6 md:px-16 z-20 flex items-center justify-center text-center">
       
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">

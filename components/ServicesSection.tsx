@@ -12,7 +12,7 @@ const services = [
 
 const ServicesSection: React.FC = () => {
   return (
-    <section id="services" className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-transparent">
+    <section id="services" className="relative w-full min-h-screen flex items-center justify-center bg-transparent">
       
       {/* Foreground Content (In front of Model) */}
       <div className="relative w-full h-full pointer-events-auto">

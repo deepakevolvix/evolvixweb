@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const ServicesTitle: React.FC = () => {
   return (
-    <section className="w-full h-[60vh] flex items-center justify-center bg-transparent overflow-hidden">
+    <section className="w-full min-h-[60vh] flex items-center justify-center bg-transparent">
       <motion.h2 
         initial={{ opacity: 0, scale: 0.8, y: 50 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}

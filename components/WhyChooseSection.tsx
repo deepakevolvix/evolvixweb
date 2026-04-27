@@ -32,7 +32,7 @@ const reasons = [
 
 const WhyChooseSection: React.FC = () => {
   return (
-    <section className="relative w-full py-24 bg-white px-6 md:px-16 overflow-hidden z-20">
+    <section className="relative w-full py-24 bg-white px-6 md:px-16 z-20">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}

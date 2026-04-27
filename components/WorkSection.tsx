@@ -11,7 +11,7 @@ const projects = [
 
 const WorkSection: React.FC = () => {
   return (
-    <section id="work" className="relative w-full py-20 bg-[#0B0418] px-4 md:px-16 overflow-hidden z-20">
+    <section id="work" className="relative w-full py-20 bg-[#0B0418] px-4 md:px-16 z-20">
       
       {/* Heading */}
       <div className="mb-20 pt-10">
