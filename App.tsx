@@ -60,6 +60,32 @@ const ScrollHooker = ({ onStopFraction }: { onStopFraction: (f: number) => void 
       }
     }
   });
+
+  // Catch the custom event from Navbar and scroll the native Drei element
+  useEffect(() => {
+    const handleNavScroll = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const id = customEvent.detail.id;
+      
+      if (id === 'home') {
+        scroll.el.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      
+      const element = document.getElementById(id);
+      const mainEl = document.getElementById('main-content');
+      
+      if (element && mainEl) {
+        // Calculate the un-scrolled intrinsic Y coordinate
+        const targetY = element.getBoundingClientRect().top - mainEl.getBoundingClientRect().top;
+        scroll.el.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    };
+
+    window.addEventListener('nav-scroll', handleNavScroll);
+    return () => window.removeEventListener('nav-scroll', handleNavScroll);
+  }, [scroll]);
+
   return null;
 };
 

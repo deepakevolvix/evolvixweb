@@ -8,23 +8,9 @@ const Navbar: React.FC = () => {
   const scrollToSection = (id: string) => {
     setIsOpen(false);
     
-    // Fallback for native scrolling
-    if (id === 'home') {
-      const scrollContainer = document.querySelector('div[style*="overflow"]') as HTMLElement;
-      if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const element = document.getElementById(id);
-    const mainEl = document.getElementById('main-content');
-    // Find the invisible scroll container Drei creates
-    const scrollContainer = document.querySelector('div[style*="overflow: auto"], div[style*="overflow: scroll"], div[style*="overflow"]') as HTMLElement | null;
-    
-    if (element && mainEl && scrollContainer) {
-      // Calculate precise pixel distance from top of document
-      const targetY = element.getBoundingClientRect().top - mainEl.getBoundingClientRect().top;
-      scrollContainer.scrollTo({ top: targetY, behavior: 'smooth' });
-    }
+    // Dispatch a custom event so the internal React Three Fiber ScrollHooker can 
+    // catch it and natively glide the 3D scroll container.
+    window.dispatchEvent(new CustomEvent('nav-scroll', { detail: { id } }));
   };
 
   const menuItems = [
