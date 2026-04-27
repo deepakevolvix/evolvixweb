@@ -36,7 +36,8 @@ const Scene: React.FC<SceneProps> = ({ pages, stopFraction }) => {
     return () => window.removeEventListener('resize', handler);
   }, []);
 
-  const { nodes } = useGLTF(`${import.meta.env.BASE_URL}evolvix-model/newevolvixmodel.glb`) as any;
+  // Use local Draco decoder to prevent gstatic CDN blocking on mobile networks
+  const { nodes } = useGLTF(`${import.meta.env.BASE_URL}evolvix-model/newevolvixmodel.glb`, `${import.meta.env.BASE_URL}draco/`) as any;
 
   const modelMeshes = useMemo(() => {
     return (Object.values(nodes) as any[]).filter((n: any) => n.isMesh);

@@ -154,10 +154,13 @@ const App: React.FC = () => {
     const connectObserver = () => {
       const mainEl = document.getElementById('main-content');
       if (mainEl && !observer) {
-        observer = new ResizeObserver(() => {
-          updatePages();
-        });
-        observer.observe(mainEl);
+        if (typeof ResizeObserver !== 'undefined') {
+          observer = new ResizeObserver(() => {
+            updatePages();
+          });
+          observer.observe(mainEl);
+        }
+        clearInterval(observerTimer); // Safely clear regardless to stop loop
       }
     };
 
