@@ -7,9 +7,23 @@ const Navbar: React.FC = () => {
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
+    
+    // Fallback for native scrolling
+    if (id === 'home') {
+      const scrollContainer = document.querySelector('div[style*="overflow"]') as HTMLElement;
+      if (scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const mainEl = document.getElementById('main-content');
+    // Find the invisible scroll container Drei creates
+    const scrollContainer = document.querySelector('div[style*="overflow: auto"], div[style*="overflow: scroll"], div[style*="overflow"]') as HTMLElement | null;
+    
+    if (element && mainEl && scrollContainer) {
+      // Calculate precise pixel distance from top of document
+      const targetY = element.getBoundingClientRect().top - mainEl.getBoundingClientRect().top;
+      scrollContainer.scrollTo({ top: targetY, behavior: 'smooth' });
     }
   };
 

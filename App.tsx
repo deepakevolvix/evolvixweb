@@ -194,6 +194,13 @@ const App: React.FC = () => {
           el.style.setProperty('-webkit-overflow-scrolling', 'touch');
         }
       });
+      
+      // CRITICAL iOS FIX: The R3F Canvas wrapper natively injects pointer-events: auto
+      // This steals touches on iOS. We MUST strip it to let the ScrollControls div breathe.
+      const canvas = document.querySelector('canvas');
+      if (canvas && canvas.parentElement) {
+        canvas.parentElement.style.setProperty('pointer-events', 'none', 'important');
+      }
     };
 
     // Run patch on mount, and slightly delayed to wait for Drei
