@@ -16,16 +16,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overflow-y: scroll;
-  min-height: 100vh;
-  height: auto;
+  background-color: #0F172A;
+  overscroll-behavior-y: none !important;
 }
 
 html {
   overflow-x: hidden;
-  overflow-y: scroll;
-  height: 100%;
-  scroll-behavior: smooth;
+  background-color: #0F172A;
+  overscroll-behavior-y: none !important;
 }
 
 /* =====================================================
@@ -38,27 +36,11 @@ div[style*="overflow: auto"],
 div[style*="overflow:scroll"],
 div[style*="overflow: scroll"] {
   -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: none !important;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
 }
-
-/* =====================================================
-   iOS SAFARI SCROLL BLOCK FIX
-   Ensures 3D canvas does not swallow scroll events.
-   Affects ONLY iOS Safari devices and keeps Android intact.
-   ===================================================== */
-@supports (-webkit-touch-callout: none) {
-  canvas {
-    pointer-events: none !important;
-    touch-action: pan-y !important;
-  }
-  
-  html, body {
-    position: relative;
-    height: auto !important;
-    overflow-y: scroll !important;
-  }
-}
+

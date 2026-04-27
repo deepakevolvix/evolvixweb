@@ -137,10 +137,14 @@ const App: React.FC = () => {
       }
     };
 
+    let lastWidth = window.innerWidth;
     const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      // Debounce window resizes (like mobile URL bars appearing hiding) by 500ms so we don't reset ScrollControls
-      resizeTimeout = setTimeout(updatePages, 500);
+      // Only recalculate on width change to prevent mobile URL bar toggle bugs
+      if (window.innerWidth !== lastWidth) {
+        lastWidth = window.innerWidth;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updatePages, 500);
+      }
     };
 
     const timer = setTimeout(updatePages, 500);
@@ -219,7 +223,7 @@ const App: React.FC = () => {
           <ErrorBoundary>
             {/* pointerEvents: 'none' on canvas itself guarantees it passes clicks down to HTML! */}
             {/* position: 'absolute' and zIndex: 10 on Canvas guarantees it paints ABOVE the ScrollControls HTML! */}
-            <Canvas style={{ position: 'absolute', zIndex: 10, pointerEvents: 'none' }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
+            <Canvas style={{ position: 'absolute', zIndex: 10, pointerEvents: 'none', touchAction: 'pan-y' }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
               <ScrollControls pages={pages} damping={0.3}>
                  {/* Suspense now ONLY wraps the 3D Model so HTML text renders instantly! */}
                  <Suspense fallback={null}>
