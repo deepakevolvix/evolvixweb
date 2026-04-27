@@ -132,7 +132,9 @@ const App: React.FC = () => {
         if (windowHeight > 0) {
           // Add a larger buffer (0.1) to prevent mobile touch-bounce from hitting the exact bottom edge and clipping
           // Use Math.max(1, ...) to guarantee ScrollControls never collapses to 0-height on slow network loads
-          setPages(Math.max(1, (contentHeight / windowHeight) + 0.1));
+          const newPages = Math.max(1, (contentHeight / windowHeight) + 0.1);
+          // Only update state if there is a significant change to prevent iOS Safari scroll-thrashing
+          setPages((prev) => Math.abs(prev - newPages) > 0.05 ? newPages : prev);
         }
       }
     };
@@ -222,7 +224,7 @@ const App: React.FC = () => {
         <HTMLSyncer targetRef={backgroundRef} pages={pages} />
 
         {/* LAYER 2: Canvas (Model) - Raised z-index to 30 so it ALWAYS stays in front of text */}
-        <div id="canvas-root" className="fixed inset-0 z-30 pointer-events-none">
+        <div id="canvas-root" className="fixed inset-0 z-30">
           <ErrorBoundary>
             {/* pointerEvents: 'none' on canvas itself guarantees it passes clicks down to HTML! */}
             {/* position: 'absolute' and zIndex: 10 on Canvas guarantees it paints ABOVE the ScrollControls HTML! */}
