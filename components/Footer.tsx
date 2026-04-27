@@ -67,6 +67,9 @@ const Footer: React.FC = () => {
         <span className="mt-2 md:mt-0">Designed & Engineered by Evolvix</span>
       </div>
 
+      {/* EXTENSION TO FIX OVERSCROLL WHITE GAP */}
+      <div className="absolute top-full left-0 w-full h-[50vh] bg-black pointer-events-none"></div>
+
     </footer>
   );
 };
