@@ -177,6 +177,39 @@ const App: React.FC = () => {
       window.removeEventListener('resize', handleResize);
       if (observer) observer.disconnect();
     };
+  // SEGREGATED iOS SAFEGUARDS: 
+  // 1. Force passive: true on all touch events globally to prevent Drei/React from swallowing scroll
+  // 2. Handle iOS 16 WebGL context loss bug
+  useEffect(() => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    if (isIOS) {
+      // Force passive listeners globally
+      const originalAddEventListener = EventTarget.prototype.addEventListener;
+      EventTarget.prototype.addEventListener = function(type, listener, options) {
+        if (type === 'touchstart' || type === 'touchmove' || type === 'wheel') {
+          if (typeof options === 'boolean') {
+            options = { capture: options, passive: true };
+          } else if (typeof options === 'object' && options !== null) {
+            options.passive = true;
+          } else {
+            options = { passive: true };
+          }
+        }
+        return originalAddEventListener.call(this, type, listener, options);
+      };
+
+      // Handle Safari WebGL Context Loss
+      const handleContextLost = (e: Event) => {
+        e.preventDefault();
+        window.location.reload(); // Hard reset iOS scroll context if GPU crashes
+      };
+      window.addEventListener('webglcontextlost', handleContextLost);
+      
+      return () => {
+        window.removeEventListener('webglcontextlost', handleContextLost);
+      };
+    }
   }, []);
 
 
@@ -214,7 +247,7 @@ const App: React.FC = () => {
   }, [loading]);
 
   return (
-    <div className="relative w-full min-h-[100dvh] bg-gray-50 text-black">
+    <div className="w-full min-h-[100dvh] bg-gray-50 text-black">
       <Loader onLoaded={() => setLoading(false)} />
 
       <div className="w-full h-full">

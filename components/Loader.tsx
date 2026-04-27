@@ -24,7 +24,9 @@ function unlockScroll() {
   document.body.style.top        = '';
   document.body.style.width      = '';
   document.body.style.height     = '';
+  document.body.style.touchAction = 'auto'; // Explicitly restore touchAction for iOS
   document.documentElement.style.overflow = '';
+  document.documentElement.style.touchAction = 'auto';
 
   window.scrollTo(0, scrollY);
 }
