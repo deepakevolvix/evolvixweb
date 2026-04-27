@@ -177,6 +177,8 @@ const App: React.FC = () => {
       window.removeEventListener('resize', handleResize);
       if (observer) observer.disconnect();
     };
+  }, []);
+
   // SEGREGATED iOS SAFEGUARDS: 
   // 1. Force passive: true on all touch events globally to prevent Drei/React from swallowing scroll
   // 2. Handle iOS 16 WebGL context loss bug
