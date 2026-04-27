@@ -131,8 +131,8 @@ const App: React.FC = () => {
         const windowHeight = window.innerHeight;
         if (windowHeight > 0) {
           // Add a larger buffer (0.1) to prevent mobile touch-bounce from hitting the exact bottom edge and clipping
-          // This ensures the footer is always fully visible on Android/Brave/Chrome
-          setPages((contentHeight / windowHeight) + 0.1);
+          // Use Math.max(1, ...) to guarantee ScrollControls never collapses to 0-height on slow network loads
+          setPages(Math.max(1, (contentHeight / windowHeight) + 0.1));
         }
       }
     };

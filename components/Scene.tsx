@@ -61,7 +61,7 @@ const Scene: React.FC<SceneProps> = ({ pages, stopFraction }) => {
 
     // The scroll-linked extra spinning stops when it hits the center
     // We use the exact stopFraction calculated dynamically by App.tsx
-    const spinProgress = Math.min(t / stopFraction, 1);
+    const spinProgress = Math.min(t / STOP_POINT, 1);
     
     // We lock the arbitrary float value for rotation so it doesn't jump
     const lockedRotationTime = spinProgress * 5; 
